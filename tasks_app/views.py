@@ -6,16 +6,11 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ValidationError
 import random
 
-# In-memory data store
+from utils.custom_validations import validate_task_data
+
+# This is how I implement the use of the In-memory data store
 tasks = {}
 task_id_counter = random.randint(11111, 99999)
-
-
-def validate_task_data(data):
-    if 'title' not in data or not isinstance(data['title'], str):
-        raise ValidationError("Title is required and must be a string.")
-    if 'status' not in data or data['status'] not in ['pending', 'in progress', 'completed']:
-        raise ValidationError("Status is required and must be one of 'pending', 'in progress', or 'completed'.")
 
 
 @method_decorator(csrf_exempt, name='dispatch')
